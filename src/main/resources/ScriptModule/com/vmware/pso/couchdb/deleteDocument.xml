@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="deleteDocument" result-type="string" api-version="6.0.0" id="21c13a5d-9a7a-43c9-9ce4-02ad41163032" version="0.0.0" allowed-operations="vef">
+  <param n="couchHost" t="REST:RESTHost"><![CDATA[]]></param>
+  <param n="dbName" t="string"><![CDATA[]]></param>
+  <param n="docId" t="string"><![CDATA[]]></param>
+  <script encoded="false"><![CDATA[var requestUrl;
+var docRev;
+if (docId != null && docId.length > 0) {
+	//potentially an existing document.
+	requestUrl = "/"+encodeURIComponent(dbName)+"/"+encodeURIComponent(docId);
+	var request = couchHost.createRequest("HEAD",requestUrl,null);	
+	var response = request.execute();
+	
+	if (response.statusCode == 404) {
+		//document does not exist;
+		throw("Record does not exist for docId: "+docId);
+	} else if (response.statusCode == 200) {
+		//document exists;
+		var responseHeaders = response.getAllHeaders();
+		docRev = JSON.parse(responseHeaders.get("ETag"));
+		requestUrl = requestUrl+"?rev="+docRev;
+	}
+} else {
+	//docId is a required input for delete.
+	throw("docId was a required input for delete record.")
+}
+
+var response = System.getModule("com.vmware.pso.couchdb").couchDelete(couchHost,requestUrl);
+
+var rev;
+var responseObj = JSON.parse(response);
+if (responseObj.ok === true) {
+	rev = responseObj.rev;
+}
+
+return rev;]]></script>
+</dunes-script-module>

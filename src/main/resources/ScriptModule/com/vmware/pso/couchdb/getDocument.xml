@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="getDocument" result-type="string" api-version="6.0.0" id="1324f771-142c-41b7-82cf-78e2537ddf5b" version="0.0.0" allowed-operations="vef">
+  <param n="couchHost" t="REST:RESTHost"><![CDATA[]]></param>
+  <param n="dbName" t="string"><![CDATA[]]></param>
+  <param n="docId" t="string"><![CDATA[]]></param>
+  <param n="rev" t="string"><![CDATA[]]></param>
+  <script encoded="false"><![CDATA[var requestUrl;
+var latestRev;
+if (docId != null && docId.length > 0) {
+	//potentially an existing document.
+	requestUrl = "/"+encodeURIComponent(dbName)+"/"+encodeURIComponent(docId);
+	var request = couchHost.createRequest("HEAD",requestUrl,null);	
+	var response = request.execute();
+	
+	if (response.statusCode == 404) {
+		//document does not exist;
+		throw("Document does not exist by id: "+docId);
+	} else if (response.statusCode == 200) {
+		//document exists;
+		var responseHeaders = response.getAllHeaders();
+		latestRev = JSON.parse(responseHeaders.get("ETag"));
+	}
+
+} else {
+	//new document
+	throw("docId is a required input");
+}
+
+if (rev != null && rev.length > 0) {
+	requestUrl = requestUrl+"?rev="+encodeURIComponent(rev);
+} else {
+	requestUrl = requestUrl+"?rev="+encodeURIComponent(latestRev);
+}
+
+var getRequest = couchHost.createRequest("GET",requestUrl,null);
+getRequest.contentType = "application/json";
+
+var response = getRequest.execute();
+var doc;
+if (response.statusCode < 400) {
+	doc = response.contentAsString;
+} else {
+	System.error(response.contentAsString);
+	throw("TODO: fix this error");
+}
+return doc;]]></script>
+</dunes-script-module>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="cleanupDatabaseViews" result-type="void" api-version="6.0.0" id="a8676b23-21b9-4293-b4c6-545cac8ea57a" version="0.0.0" allowed-operations="vef">
+  <param n="couchHost" t="REST:RESTHost"><![CDATA[]]></param>
+  <param n="dbName" t="string"><![CDATA[]]></param>
+  <script encoded="false"><![CDATA[var endpoint = "/"+encodeURIComponent(dbName)+"/_view_cleanup";
+var response = System.getModule("com.vmware.pso.couchdb").couchPost(couchHost,endpoint,null);
+var responseObj;
+
+try {
+	responseObj = JSON.parse(response);
+} catch (e) {
+	System.error("Expected a JSON response but received: "+response);
+	throw("Did not receive a JSON response.  Not a CouchDB Server?");
+}
+if (responseObj.ok == true) {
+	System.log("Successfully initiated compaction for database: "+dbName);
+} else {
+	System.error(responseObj.reason);
+	throw(responseObj.reason);
+}]]></script>
+</dunes-script-module>

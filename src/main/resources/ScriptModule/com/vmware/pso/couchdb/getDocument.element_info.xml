@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">com.vmware.pso.couchdb</entry>
+<entry key="name">getDocument</entry>
+<entry key="type">ScriptModule</entry>
+<entry key="id">1324f771-142c-41b7-82cf-78e2537ddf5b</entry>
+</properties>

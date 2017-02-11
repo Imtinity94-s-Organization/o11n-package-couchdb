@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="getUserRoles" result-type="Array/string" api-version="6.0.0" id="b8517d15-7cfd-4a7a-9a51-cbe0daaafc8d" version="0.0.0" allowed-operations="vef">
+  <param n="couchHost" t="REST:RESTHost"><![CDATA[]]></param>
+  <param n="username" t="string"><![CDATA[]]></param>
+  <script encoded="false"><![CDATA[//user account details are stored as documents in a special couchdb:
+var toReturn = [];
+var dbName = "_users";
+var docId = "org.couchdb.user:"+username;
+
+try {
+	var doc = System.getModule("com.vmware.pso.couchdb").getDocument(couchHost,dbName,docId,null);
+	var userObj = JSON.parse(doc);
+	toReturn = userObj.roles;
+} catch (e) {
+	throw("Could not determine roles for user: "+username+" : "+e);
+}
+
+return toReturn;]]></script>
+</dunes-script-module>

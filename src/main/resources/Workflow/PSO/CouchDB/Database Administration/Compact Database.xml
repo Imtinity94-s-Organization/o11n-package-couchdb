@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="48222fae-331d-401b-b48e-15e96b2b5081" version="0.0.3" api-version="6.0.0" allowed-operations="vef" icon-id="8e28b251-4884-4789-923e-f0679c67b5f0" restartMode="1" resumeFromFailedMode="0">
+  <display-name><![CDATA[Compact Database]]></display-name>
+  <position y="50.0" x="100.0"></position>
+  <input>
+    <param name="couchHost" type="REST:RESTHost"></param>
+    <param name="dbName" type="string"></param>
+  </input>
+  <workflow-item  name="item0" type="end" end-mode="0">
+    <position y="45.40909090909091" x="384.5"></position>
+  </workflow-item >
+  <workflow-item  name="item1" out-name="item0" type="task" script-module="com.vmware.pso.couchdb/compactDatabase">
+    <display-name><![CDATA[compactDatabase]]></display-name>
+    <script encoded="false"><![CDATA[//Auto generated script, cannot be modified !
+System.getModule("com.vmware.pso.couchdb").compactDatabase(couchHost,dbName) ;]]></script>
+    <in-binding>
+      <bind name="couchHost" type="REST:RESTHost" export-name="couchHost"></bind>
+      <bind name="dbName" type="string" export-name="dbName"></bind>
+    </in-binding>
+    <out-binding></out-binding>
+    <position y="55.40909090909091" x="204.5"></position>
+  </workflow-item >
+  <presentation>
+    <p-param name="couchHost">
+      <desc><![CDATA[couchHost]]></desc>
+      <p-qual kind="static" name="show-select-as" type="string"><![CDATA[list]]></p-qual>
+    </p-param>
+    <p-param name="dbName">
+      <desc><![CDATA[dbName]]></desc>
+      <p-qual kind="ognl" name="genericEnumeration" type="Array/string"><![CDATA[GetAction("com.vmware.pso.couchdb","getAllDatabases").call( #couchHost , false )]]></p-qual>
+    </p-param>
+  </presentation>
+</workflow>

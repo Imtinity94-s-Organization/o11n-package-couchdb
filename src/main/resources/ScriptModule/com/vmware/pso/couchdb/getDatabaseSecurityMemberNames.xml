@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="getDatabaseSecurityMemberNames" result-type="Array/string" api-version="6.0.0" id="feed42fc-5587-4354-bbfd-ff274460aec8" version="0.0.0" allowed-operations="vef">
+  <param n="couchHost" t="REST:RESTHost"><![CDATA[]]></param>
+  <param n="dbName" t="string"><![CDATA[]]></param>
+  <script encoded="false"><![CDATA[var endpoint = "/"+encodeURIComponent(dbName)+"/_security";
+var response = System.getModule("com.vmware.pso.couchdb").couchGet(couchHost,endpoint)
+var responseObj;
+try {
+	responseObj = JSON.parse(response);
+} catch (e) {
+	System.error("Expected a JSON response but received: "+response);
+	throw("Did not receive a JSON response.  Not a CouchDB Server?");
+}
+
+return responseObj.members.names;]]></script>
+</dunes-script-module>

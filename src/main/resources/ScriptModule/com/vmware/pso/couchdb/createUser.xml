@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="createUser" result-type="void" api-version="6.0.0" id="f2a28b12-3892-4b6d-bd6f-2cfc6b3cc6ff" version="0.0.0" allowed-operations="vef">
+  <param n="couchHost" t="REST:RESTHost"><![CDATA[]]></param>
+  <param n="username" t="string"><![CDATA[Username of the new user]]></param>
+  <param n="password" t="SecureString"><![CDATA[Password for the user]]></param>
+  <param n="roles" t="Array/string"><![CDATA[]]></param>
+  <script encoded="false"><![CDATA[var bodyObj = {};
+bodyObj.name = username;
+bodyObj.password = password;
+if (roles != null && roles.length > 0) {
+	bodyObj.roles = roles;
+} else {
+	bodyObj.roles = [];
+}
+bodyObj.type = "user";
+
+var request = couchHost.createRequest("PUT","/_users/org.couchdb.user:"+encodeURIComponent(username),JSON.stringify(bodyObj));
+var response = request.execute();
+var responseObj;
+try {
+	responseObj = JSON.parse(response.contentAsString);
+} catch (e) {
+	System.error("Expected a JSON response but received: "+response.contentAsString);
+	throw("Did not receive a JSON response.  Not a CouchDB Server?");
+}
+if (response.statusCode == 201) {
+	System.log("Successfully created user: "+username);
+} else {
+	System.error("unexpected status code: "+response.statusCode);
+	System.error("Error Response: "+response.contentAsString);
+	throw("unexpected status code: "+response.statusCode);
+}]]></script>
+</dunes-script-module>

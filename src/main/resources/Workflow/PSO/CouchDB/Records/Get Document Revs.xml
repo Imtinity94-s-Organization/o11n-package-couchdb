@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="e34a512e-c4a1-40a8-a706-026e328520f5" version="0.0.7" api-version="6.0.0" allowed-operations="vef" icon-id="8e28b251-4884-4789-923e-f0679c67b5f0" restartMode="1" resumeFromFailedMode="0">
+  <display-name><![CDATA[Get Document Revs]]></display-name>
+  <position y="50.0" x="100.0"></position>
+  <input>
+    <param name="couchHost" type="REST:RESTHost"></param>
+    <param name="dbName" type="string"></param>
+    <param name="docId" type="string"></param>
+  </input>
+  <output>
+    <param name="revs" type="string"></param>
+    <param name="rev_infos" type="string"></param>
+  </output>
+  <workflow-item  name="item0" type="end" end-mode="0">
+    <position y="45.40909090909091" x="384.5"></position>
+  </workflow-item >
+  <workflow-item  name="item1" out-name="item0" type="task">
+    <display-name><![CDATA[Get Revisions]]></display-name>
+    <script encoded="false"><![CDATA[var requestUrl;
+var latestRev;
+if (docId != null && docId.length > 0) {
+	//potentially an existing document.
+	requestUrl = "/"+encodeURIComponent(dbName)+"/"+encodeURIComponent(docId)+"?revs=true&revs_info=true";
+	var request = couchHost.createRequest("GET",requestUrl,null);	
+	var response = request.execute();
+	
+	if (response.statusCode == 404) {
+		//document does not exist;
+		throw("Document does not exist by id: "+docId);
+	} else if (response.statusCode == 200) {
+		//document exists;
+		docObj = JSON.parse(response.contentAsString);
+		revs = JSON.stringify(docObj._revisions);
+		rev_infos = JSON.stringify(docObj._revs_info);
+	} else {
+		throw("FIX THIS ERROR HANDLER");
+	}
+} else {
+	//docId missing
+	throw("docId is a required input");
+}
+]]></script>
+    <in-binding>
+      <bind name="couchHost" type="REST:RESTHost" export-name="couchHost"></bind>
+      <bind name="dbName" type="string" export-name="dbName"></bind>
+      <bind name="docId" type="string" export-name="docId"></bind>
+    </in-binding>
+    <out-binding>
+      <bind name="revs" type="string" export-name="revs"></bind>
+      <bind name="rev_infos" type="string" export-name="rev_infos"></bind>
+    </out-binding>
+    <position y="55.40909090909091" x="204.5"></position>
+  </workflow-item >
+  <presentation>
+    <p-param name="couchHost">
+      <desc><![CDATA[couchHost]]></desc>
+      <p-qual kind="static" name="mandatory" type="boolean"><![CDATA[true]]></p-qual>
+      <p-qual kind="static" name="show-select-as" type="string"><![CDATA[list]]></p-qual>
+    </p-param>
+    <p-param name="dbName">
+      <desc><![CDATA[dbName]]></desc>
+      <p-qual kind="static" name="mandatory" type="boolean"><![CDATA[true]]></p-qual>
+    </p-param>
+    <p-param name="docId">
+      <desc><![CDATA[docId]]></desc>
+      <p-qual kind="static" name="mandatory" type="boolean"><![CDATA[true]]></p-qual>
+    </p-param>
+  </presentation>
+</workflow>

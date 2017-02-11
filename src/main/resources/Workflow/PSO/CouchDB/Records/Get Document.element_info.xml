@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">PSO.CouchDB.Records</entry>
+<entry key="name">Get Document</entry>
+<entry key="type">Workflow</entry>
+<entry key="id">5bd0b34c-84b5-4728-8d15-d5fc222604a5</entry>
+</properties>

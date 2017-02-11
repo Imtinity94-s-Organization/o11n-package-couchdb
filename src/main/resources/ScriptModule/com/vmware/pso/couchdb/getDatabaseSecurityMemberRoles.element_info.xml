@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">com.vmware.pso.couchdb</entry>
+<entry key="name">getDatabaseSecurityMemberRoles</entry>
+<entry key="type">ScriptModule</entry>
+<entry key="id">cdb94db5-bbaf-47fe-8e39-a4ba5a402005</entry>
+</properties>

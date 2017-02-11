@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="couchGet" result-type="string" api-version="6.0.0" id="b8275d1f-c2bd-49da-b549-1dbc5de60643" version="0.0.0" allowed-operations="vef">
+  <description><![CDATA[Requests one or more Universally Unique Identifiers (UUIDs) from the CouchDB instance.]]></description>
+  <param n="couchHost" t="REST:RESTHost"><![CDATA[]]></param>
+  <param n="endpoint" t="string"><![CDATA[]]></param>
+  <script encoded="false"><![CDATA[var request = couchHost.createRequest("GET",endpoint,null);
+
+var response = request.execute();
+if (response.statusCode < 400) {
+	//all good
+} else {
+	throw("Received status code: "+response.statusCode+"  Body: "+response.contentAsString);
+}
+
+return response.contentAsString;]]></script>
+</dunes-script-module>

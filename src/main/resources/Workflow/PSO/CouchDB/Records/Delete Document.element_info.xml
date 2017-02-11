@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">PSO.CouchDB.Records</entry>
+<entry key="name">Delete Document</entry>
+<entry key="type">Workflow</entry>
+<entry key="id">7d58a5ef-2109-4cc8-ba32-591309b827b5</entry>
+</properties>

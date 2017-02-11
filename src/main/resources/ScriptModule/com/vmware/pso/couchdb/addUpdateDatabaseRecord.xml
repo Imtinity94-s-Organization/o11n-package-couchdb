@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="addUpdateDatabaseRecord" result-type="string" api-version="6.0.0" id="35e081c3-b285-4d7e-9e6d-1edaf96016af" version="0.0.0" allowed-operations="vef">
+  <param n="couchHost" t="REST:RESTHost"><![CDATA[]]></param>
+  <param n="dbName" t="string"><![CDATA[]]></param>
+  <param n="docId" t="string"><![CDATA[(Optional)]]></param>
+  <param n="doc" t="string"><![CDATA[]]></param>
+  <script encoded="false"><![CDATA[var docObj = JSON.parse(doc);
+var requestUrl = null;
+if (docId != null && docId.length > 0) {
+	docObj._id = docId;
+}
+
+if (docObj._id != null && docObj._id.length > 0) {
+	//potentially an existing document.
+	requestUrl = "/"+encodeURIComponent(dbName)+"/"+encodeURIComponent(docObj._id);
+	var request = couchHost.createRequest("HEAD",requestUrl,null);	
+	var response = request.execute();
+	
+	if (response.statusCode == 404) {
+		//document does not exist;
+	} else if (response.statusCode == 200) {
+		//document exists;
+		var responseHeaders = response.getAllHeaders();
+		docObj._rev = JSON.parse(responseHeaders.get("ETag"));
+	}
+
+} else {
+	//new document
+	var nextId = System.getModule("com.vmware.pso.couchdb").getUUIDs(couchHost,1);
+	requestUrl = "/"+encodeURIComponent(dbName)+"/"+encodeURIComponent(nextId[0]);
+}
+
+var updateRequest = couchHost.createRequest("PUT",requestUrl,JSON.stringify(docObj));
+updateRequest.contentType = "application/json";
+
+var response = updateRequest.execute();
+
+if (response.statusCode < 400) {
+	return response.contentAsString;
+} else {
+	throw("error");
+}]]></script>
+</dunes-script-module>

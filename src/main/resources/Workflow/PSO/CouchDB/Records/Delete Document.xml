@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="7d58a5ef-2109-4cc8-ba32-591309b827b5" version="0.0.6" api-version="6.0.0" allowed-operations="vef" icon-id="8e28b251-4884-4789-923e-f0679c67b5f0" restartMode="1" resumeFromFailedMode="0">
+  <display-name><![CDATA[Delete Document]]></display-name>
+  <position y="50.0" x="100.0"></position>
+  <input>
+    <param name="couchHost" type="REST:RESTHost"></param>
+    <param name="dbName" type="string"></param>
+    <param name="docId" type="string"></param>
+  </input>
+  <output>
+    <param name="rev" type="string"></param>
+  </output>
+  <attrib name="errorCode" type="string" read-only="false">
+    <value encoded="n"><![CDATA[]]></value>
+  </attrib>
+  <workflow-item  name="item0" type="end" end-mode="0">
+    <position y="45.40909090909091" x="404.5"></position>
+  </workflow-item >
+  <workflow-item  name="item1" out-name="item0" catch-name="item2" throw-bind-name="errorCode" type="task" script-module="com.vmware.pso.couchdb/deleteDocument">
+    <display-name><![CDATA[deleteDocument]]></display-name>
+    <script encoded="false"><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("com.vmware.pso.couchdb").deleteDocument(couchHost,dbName,docId) ;]]></script>
+    <in-binding>
+      <bind name="couchHost" type="REST:RESTHost" export-name="couchHost"></bind>
+      <bind name="dbName" type="string" export-name="dbName"></bind>
+      <bind name="docId" type="string" export-name="docId"></bind>
+    </in-binding>
+    <out-binding>
+      <bind name="actionResult" type="string" export-name="rev"></bind>
+    </out-binding>
+    <position y="55.90909090909091" x="225.0"></position>
+  </workflow-item >
+  <workflow-item  name="item2" throw-bind-name="errorCode" type="end" end-mode="1">
+    <position y="109.04545454545453" x="265.0"></position>
+  </workflow-item >
+  <presentation>
+    <p-param name="couchHost">
+      <desc><![CDATA[couchHost]]></desc>
+      <p-qual kind="static" name="mandatory" type="boolean"><![CDATA[true]]></p-qual>
+      <p-qual kind="static" name="show-select-as" type="string"><![CDATA[list]]></p-qual>
+    </p-param>
+    <p-param name="dbName">
+      <desc><![CDATA[dbName]]></desc>
+      <p-qual kind="static" name="mandatory" type="boolean"><![CDATA[true]]></p-qual>
+    </p-param>
+    <p-param name="docId">
+      <desc><![CDATA[docId]]></desc>
+      <p-qual kind="static" name="mandatory" type="boolean"><![CDATA[true]]></p-qual>
+    </p-param>
+  </presentation>
+</workflow>

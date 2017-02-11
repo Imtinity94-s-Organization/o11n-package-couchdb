@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="couchPut" result-type="string" api-version="6.0.0" id="b912d2ca-136e-4751-8828-f6fb3756f3de" version="0.0.0" allowed-operations="vef">
+  <description><![CDATA[Requests one or more Universally Unique Identifiers (UUIDs) from the CouchDB instance.]]></description>
+  <param n="couchHost" t="REST:RESTHost"><![CDATA[]]></param>
+  <param n="endpoint" t="string"><![CDATA[]]></param>
+  <param n="body" t="string"><![CDATA[]]></param>
+  <script encoded="false"><![CDATA[var request = couchHost.createRequest("PUT",endpoint,body);
+request.contentType = "application/json";
+var response = request.execute();
+if (response.statusCode < 400) {
+	//all good
+} else {
+	throw("Received status code: "+response.statusCode+"  Body: "+response.contentAsString);
+}
+
+return response.contentAsString;]]></script>
+</dunes-script-module>

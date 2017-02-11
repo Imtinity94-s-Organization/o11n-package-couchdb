@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">PSO.CouchDB.Server Administration</entry>
+<entry key="name">Update User Roles</entry>
+<entry key="type">Workflow</entry>
+<entry key="id">e17d1399-d5f6-4602-b8ca-96ea86f9676f</entry>
+</properties>

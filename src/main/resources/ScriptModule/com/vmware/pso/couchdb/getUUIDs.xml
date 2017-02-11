@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="getUUIDs" result-type="Array/string" api-version="6.0.0" id="47acc7a3-7905-49ed-9491-7f9a2fa2d484" version="0.0.0" allowed-operations="vef">
+  <description><![CDATA[Requests one or more Universally Unique Identifiers (UUIDs) from the CouchDB instance.]]></description>
+  <param n="couchHost" t="REST:RESTHost"><![CDATA[]]></param>
+  <param n="uuidCount" t="number"><![CDATA[number of UUIDs to request.  Valid range is 1 - 1000]]></param>
+  <script encoded="false"><![CDATA[var endpoint = "/_uuids?count="+encodeURIComponent(uuidCount);
+
+var response = System.getModule("com.vmware.pso.couchdb").couchGet(couchHost,endpoint);
+var toReturn;
+
+var obj = JSON.parse(response);
+toReturn = obj.uuids;
+
+return toReturn;]]></script>
+</dunes-script-module>

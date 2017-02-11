@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">com.vmware.pso.couchdb</entry>
+<entry key="name">createUser</entry>
+<entry key="type">ScriptModule</entry>
+<entry key="id">f2a28b12-3892-4b6d-bd6f-2cfc6b3cc6ff</entry>
+</properties>

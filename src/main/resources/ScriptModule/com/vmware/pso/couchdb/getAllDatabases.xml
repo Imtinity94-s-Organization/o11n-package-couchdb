@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="getAllDatabases" result-type="Array/string" api-version="6.0.0" id="05c9a7cf-a39d-4145-b663-d9a3b91f5cf9" version="0.0.0" allowed-operations="vef">
+  <param n="couchHost" t="REST:RESTHost"><![CDATA[]]></param>
+  <param n="returnHidden" t="boolean"><![CDATA[]]></param>
+  <script encoded="false"><![CDATA[var request = couchHost.createRequest("GET","/_all_dbs",null);
+var response = request.execute();
+var responseObj;
+var toReturn = [];
+try {
+	responseObj = JSON.parse(response.contentAsString);
+} catch (e) {
+	System.error("Expected a JSON response but received: "+response.contentAsString);
+	throw("Did not receive a JSON response.  Not a CouchDB Server?");
+}
+if (response.statusCode == 200) {
+	if (returnHidden) {
+		toReturn = responseObj;
+	} else {
+		for (var i in responseObj) {
+			if (responseObj[i].indexOf("_") == 0) {
+				//skip
+			} else {
+				toReturn.push(responseObj[i]);
+			}
+		}
+	}
+} else {
+	System.error("Failed to get all databases.  Received status code: "+response.statusCode);
+	throw("Failed to get all databases.  Received status code: "+response.statusCode);
+}
+
+return toReturn;]]></script>
+</dunes-script-module>

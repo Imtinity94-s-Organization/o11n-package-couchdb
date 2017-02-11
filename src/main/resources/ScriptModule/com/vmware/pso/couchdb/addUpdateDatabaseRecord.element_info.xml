@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">com.vmware.pso.couchdb</entry>
+<entry key="name">addUpdateDatabaseRecord</entry>
+<entry key="type">ScriptModule</entry>
+<entry key="id">35e081c3-b285-4d7e-9e6d-1edaf96016af</entry>
+</properties>

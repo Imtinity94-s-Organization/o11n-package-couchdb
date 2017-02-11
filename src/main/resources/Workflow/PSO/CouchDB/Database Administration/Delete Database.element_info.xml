@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Exported from [server]</comment>
+<entry key="categoryPath">PSO.CouchDB.Database Administration</entry>
+<entry key="name">Delete Database</entry>
+<entry key="type">Workflow</entry>
+<entry key="id">40ed29bc-e751-47b5-98ce-42c730f9680a</entry>
+</properties>

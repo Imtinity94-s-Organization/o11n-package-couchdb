@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="5bd0b34c-84b5-4728-8d15-d5fc222604a5" version="0.0.7" api-version="6.0.0" allowed-operations="vef" icon-id="8e28b251-4884-4789-923e-f0679c67b5f0" restartMode="1" resumeFromFailedMode="0">
+  <display-name><![CDATA[Get Document]]></display-name>
+  <position y="50.0" x="100.0"></position>
+  <input>
+    <param name="couchHost" type="REST:RESTHost"></param>
+    <param name="dbName" type="string"></param>
+    <param name="docId" type="string"></param>
+    <param name="rev" type="string">
+      <description><![CDATA[(Optional) Specific document revision,  Default is latest document.]]></description>
+    </param>
+  </input>
+  <output>
+    <param name="doc" type="string"></param>
+  </output>
+  <workflow-item  name="item0" type="end" end-mode="0">
+    <position y="45.40909090909091" x="384.5"></position>
+  </workflow-item >
+  <workflow-item  name="item1" out-name="item0" type="task" script-module="com.vmware.pso.couchdb/getDocument">
+    <display-name><![CDATA[getDocument]]></display-name>
+    <script encoded="false"><![CDATA[//Auto generated script, cannot be modified !
+actionResult = System.getModule("com.vmware.pso.couchdb").getDocument(couchHost,dbName,docId,rev) ;]]></script>
+    <in-binding>
+      <bind name="couchHost" type="REST:RESTHost" export-name="couchHost"></bind>
+      <bind name="dbName" type="string" export-name="dbName"></bind>
+      <bind name="docId" type="string" export-name="docId"></bind>
+      <bind name="rev" type="string" export-name="rev"></bind>
+    </in-binding>
+    <out-binding>
+      <bind name="actionResult" type="string" export-name="doc"></bind>
+    </out-binding>
+    <position y="55.40909090909091" x="204.5"></position>
+  </workflow-item >
+  <presentation>
+    <p-param name="couchHost">
+      <desc><![CDATA[couchHost]]></desc>
+      <p-qual kind="static" name="mandatory" type="boolean"><![CDATA[true]]></p-qual>
+      <p-qual kind="static" name="show-select-as" type="string"><![CDATA[list]]></p-qual>
+    </p-param>
+    <p-param name="dbName">
+      <desc><![CDATA[dbName]]></desc>
+      <p-qual kind="static" name="mandatory" type="boolean"><![CDATA[true]]></p-qual>
+    </p-param>
+    <p-param name="docId">
+      <desc><![CDATA[docId]]></desc>
+      <p-qual kind="static" name="mandatory" type="boolean"><![CDATA[true]]></p-qual>
+    </p-param>
+    <p-param name="rev">
+      <desc><![CDATA[(Optional) Specific document revision,  Default is latest document.]]></desc>
+    </p-param>
+  </presentation>
+</workflow>

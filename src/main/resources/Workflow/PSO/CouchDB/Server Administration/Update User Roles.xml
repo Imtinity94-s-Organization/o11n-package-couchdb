@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item3" object-name="workflow:name=generic" id="e17d1399-d5f6-4602-b8ca-96ea86f9676f" version="0.0.1" api-version="6.0.0" allowed-operations="vef" icon-id="8e28b251-4884-4789-923e-f0679c67b5f0" restartMode="1" resumeFromFailedMode="0">
+  <display-name><![CDATA[Update User Roles]]></display-name>
+  <position y="50.0" x="100.0"></position>
+  <input>
+    <param name="couchHost" type="REST:RESTHost"></param>
+    <param name="username" type="string"></param>
+    <param name="roles" type="Array/string"></param>
+  </input>
+  <output>
+    <param name="id" type="string"></param>
+    <param name="rev" type="string"></param>
+  </output>
+  <attrib name="dbName" type="string" read-only="true">
+    <value encoded="n"><![CDATA[_users]]></value>
+  </attrib>
+  <attrib name="docId" type="string" read-only="false">
+    <value encoded="n"><![CDATA[]]></value>
+  </attrib>
+  <attrib name="doc" type="string" read-only="false">
+    <value encoded="n"><![CDATA[]]></value>
+  </attrib>
+  <attrib name="updatedDoc" type="string" read-only="false">
+    <value encoded="n"><![CDATA[]]></value>
+  </attrib>
+  <workflow-item  name="item0" type="end" end-mode="0">
+    <position y="45.40909090909091" x="804.5"></position>
+  </workflow-item >
+  <workflow-item  name="item1" out-name="item4" type="link" linked-workflow-id="5bd0b34c-84b5-4728-8d15-d5fc222604a5">
+    <display-name><![CDATA[Get Document]]></display-name>
+    <in-binding>
+      <bind name="couchHost" type="REST:RESTHost" export-name="couchHost"></bind>
+      <bind name="dbName" type="string" export-name="dbName"></bind>
+      <bind name="docId" type="string" export-name="docId"></bind>
+      <bind name="rev" type="string" explicitly-not-bound="true" export-name="NULL">
+        <description><![CDATA[(Optional) Specific document revision,  Default is latest document.]]></description>
+      </bind>
+    </in-binding>
+    <out-binding>
+      <bind name="doc" type="string" export-name="doc"></bind>
+    </out-binding>
+    <position y="55.40909090909091" x="344.5"></position>
+  </workflow-item >
+  <workflow-item  name="item2" out-name="item0" type="link" linked-workflow-id="167fec16-07ee-4ae0-8ed5-d7f18dbf920d">
+    <display-name><![CDATA[Add / Update Document]]></display-name>
+    <in-binding>
+      <bind name="couchHost" type="REST:RESTHost" export-name="couchHost"></bind>
+      <bind name="dbName" type="string" export-name="dbName"></bind>
+      <bind name="docId" type="string" export-name="docId"></bind>
+      <bind name="doc" type="string" export-name="updatedDoc"></bind>
+    </in-binding>
+    <out-binding>
+      <bind name="id" type="string" export-name="id"></bind>
+      <bind name="rev" type="string" export-name="rev"></bind>
+    </out-binding>
+    <position y="55.40909090909091" x="624.5"></position>
+  </workflow-item >
+  <workflow-item  name="item3" out-name="item1" type="task">
+    <display-name><![CDATA[Get Current User Details]]></display-name>
+    <script encoded="false"><![CDATA[docId = "org.couchdb.user:"+username;]]></script>
+    <in-binding>
+      <bind name="username" type="string" export-name="username"></bind>
+    </in-binding>
+    <out-binding>
+      <bind name="docId" type="string" export-name="docId"></bind>
+    </out-binding>
+    <position y="55.40909090909091" x="204.5"></position>
+  </workflow-item >
+  <workflow-item  name="item4" out-name="item2" type="task">
+    <display-name><![CDATA[Modify User Doc]]></display-name>
+    <script encoded="false"><![CDATA[var userObj = JSON.parse(doc);
+
+userObj.roles = roles;
+delete userObj._id;
+delete userObj_rev;
+delete userObj.salt;
+delete userObj.password_scheme;
+delete userObj.derived_key;
+
+updatedDoc = JSON.stringify(userObj);]]></script>
+    <in-binding>
+      <bind name="doc" type="string" export-name="doc"></bind>
+      <bind name="roles" type="Array/string" export-name="roles"></bind>
+    </in-binding>
+    <out-binding>
+      <bind name="updatedDoc" type="string" export-name="updatedDoc"></bind>
+    </out-binding>
+    <position y="55.40909090909091" x="484.5"></position>
+  </workflow-item >
+  <presentation>
+    <p-param name="couchHost">
+      <desc><![CDATA[couchHost]]></desc>
+    </p-param>
+    <p-param name="username">
+      <desc><![CDATA[username]]></desc>
+    </p-param>
+    <p-param name="roles">
+      <desc><![CDATA[roles]]></desc>
+      <p-qual kind="ognl" name="dataBinding" type="Array/string"><![CDATA[GetAction("com.vmware.pso.couchdb","getUserRoles").call( #couchHost , #username )]]></p-qual>
+    </p-param>
+  </presentation>
+</workflow>

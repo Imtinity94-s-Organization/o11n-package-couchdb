@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dunes-script-module name="deleteDatabase" result-type="void" api-version="6.0.0" id="a19f3ec6-af69-4109-8ee5-6955edd40cde" version="0.0.0" allowed-operations="vef">
+  <param n="couchHost" t="REST:RESTHost"><![CDATA[]]></param>
+  <param n="dbName" t="string"><![CDATA[]]></param>
+  <script encoded="false"><![CDATA[var request = couchHost.createRequest("DELETE","/"+encodeURIComponent(dbName),null);
+var response = request.execute();
+var responseObj;
+try {
+	responseObj = JSON.parse(response.contentAsString);
+} catch (e) {
+	System.error("Expected a JSON response but received: "+response.contentAsString);
+	throw("Did not receive a JSON response.  Not a CouchDB Server?");
+}
+if (responseObj.ok == true) {
+	System.log("Successfully deleted database: "+dbName);
+} else {
+	System.error(responseObj.reason);
+	throw(responseObj.reason);
+}]]></script>
+</dunes-script-module>
