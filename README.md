@@ -24,7 +24,9 @@ Add it with cURL in a shell:
 
 * vRealize Orchestrator (vRO) 7.0 or greater
 * CouchDB 1.6.0 or greater
-* A HTTP-REST endping host configured for the CouchDB Server. 
+* A HTTP-REST plugin host configured for the CouchDB Server:
+	* URL: http://couchHost.corp.local:5984 or https://couchHost.corp.local:6984
+	* Auth: BASIC with credentials to use against the CouchDB Server.
 
 ### Build From Source
 
